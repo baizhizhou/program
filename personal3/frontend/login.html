@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 系统管理平台</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <h1>系统登录</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div id="errorMessage" class="error-message hidden"></div>
+                <button type="submit">登录</button>
+                <div class="form-footer">
+                    <button type="button" id="applyBtn" class="secondary-btn">申请账号</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 申请账号模态框 -->
+        <div id="applyModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>申请账号</h2>
+                    <button type="button" class="close">&times;</button>
+                </div>
+                <form id="applyForm">
+                    <div class="form-group">
+                        <label for="applyName">姓名</label>
+                        <input type="text" id="applyName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="applyUsername">用户名</label>
+                        <input type="text" id="applyUsername" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="applyPassword">密码</label>
+                        <input type="password" id="applyPassword" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="applyReason">申请理由</label>
+                        <textarea id="applyReason" name="reason" required></textarea>
+                    </div>
+                    <div id="applyMessage" class="message hidden"></div>
+                    <div class="form-actions">
+                        <button type="submit" class="submit-btn">提交申请</button>
+                        <button type="button" class="cancel-btn">取消</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="js/login.js"></script>
+</body>
+</html> 

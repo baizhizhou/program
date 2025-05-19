@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理系统</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/user-management.css">
+</head>
+<body>
+    <div class="bg-overlay"></div>
+    <div class="container">
+        <!-- 标题和返回按钮 -->
+        <div class="header">
+            <h1>用户管理系统</h1>
+            <button id="backBtn" class="back-btn">返回首页</button>
+        </div>
+        
+        <!-- 用户管理导航 -->
+        <div class="user-nav">
+            <button id="userReviewTab" class="nav-btn active">用户审核</button>
+            <button id="userManageTab" class="nav-btn">用户管理</button>
+        </div>
+        
+        <!-- 用户审核模块 -->
+        <div id="userReviewModule" class="module-container">
+            <h2>待审核用户</h2>
+            <div id="userReviewList" class="user-grid">
+                <!-- 用户审核卡片将在这里动态生成 -->
+            </div>
+        </div>
+        
+        <!-- 用户管理模块 -->
+        <div id="userManageModule" class="module-container hidden">
+            <h2>已注册用户</h2>
+            <div id="userManageList" class="user-grid">
+                <!-- 用户管理卡片将在这里动态生成 -->
+            </div>
+        </div>
+    </div>
+    <script src="js/user-management.js"></script>
+</body>
+</html> 

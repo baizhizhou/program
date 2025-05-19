@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主页面</title>
+    <link rel="stylesheet" href="./css/main.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>系统管理平台</h1>
+            <div class="user-info">
+                <span id="username"></span>
+                <span id="userRole"></span>
+                <button id="logoutBtn">退出登录</button>
+            </div>
+        </header>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#" class="active" data-page="dashboard">首页</a></li>
+                <li><a href="#" data-page="content">内容管理</a></li>
+                <li><a href="#" data-page="users">用户管理</a></li>
+            </ul>
+        </nav>
+        <main>
+            <!-- 仪表盘页面 -->
+            <div id="dashboard" class="page active">
+                <h2>系统概览</h2>
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <h3>内容总数</h3>
+                        <p id="contentCount">加载中...</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>用户总数</h3>
+                        <p id="userCount">加载中...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 内容管理页面 -->
+            <div id="content" class="page">
+                <h2>内容管理</h2>
+                <div class="content-controls">
+                    <button id="addContentBtn">添加内容</button>
+                    <input type="text" id="contentSearch" placeholder="搜索内容...">
+                </div>
+                <div class="content-list">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>标题</th>
+                                <th>创建时间</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contentTableBody">
+                            <!-- 内容列表将通过JavaScript动态加载 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 用户管理页面 -->
+            <div id="users" class="page">
+                <h2>用户管理</h2>
+                <div class="user-controls">
+                    <div class="tab-controls">
+                        <button class="tab-btn active" data-tab="userList">用户列表</button>
+                        <button class="tab-btn" data-tab="applications">申请记录</button>
+                    </div>
+                    <input type="text" id="userSearch" placeholder="搜索用户...">
+                </div>
+
+                <!-- 用户列表 -->
+                <div id="userList" class="tab-content active">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>用户名</th>
+                                <th>姓名</th>
+                                <th>角色</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTableBody">
+                            <!-- 用户列表将通过JavaScript动态加载 -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 申请记录列表 -->
+                <div id="applications" class="tab-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>申请时间</th>
+                                <th>姓名</th>
+                                <th>用户名</th>
+                                <th>申请理由</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applicationTableBody">
+                            <!-- 申请记录将通过JavaScript动态加载 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 添加/编辑内容的模态框 -->
+    <div id="contentModal" class="modal">
+        <div class="modal-content">
+            <h2>添加内容</h2>
+            <form id="contentForm">
+                <div class="form-group">
+                    <label for="contentTitle">标题</label>
+                    <input type="text" id="contentTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="contentBody">内容</label>
+                    <textarea id="contentBody" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit">保存</button>
+                    <button type="button" class="cancel">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="./js/main.js"></script>
+</body>
+</html>

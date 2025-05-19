@@ -1,0 +1,194 @@
+/* 用户管理页面专用样式 */
+
+.back-btn {
+    padding: 12px 20px;
+    background: #95a5a6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-weight: 500;
+}
+
+.back-btn:hover {
+    background: #7f8c8d;
+    transform: scale(1.05);
+}
+
+/* 导航栏样式 */
+.user-nav {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    justify-content: center;
+}
+
+.nav-btn {
+    padding: 12px 25px;
+    background: #ecf0f1;
+    color: #2c3e50;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.nav-btn:hover {
+    background: #d5dbdb;
+}
+
+.nav-btn.active {
+    background: #3498db;
+    color: white;
+}
+
+/* 模块容器 */
+.module-container {
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.module-container h2 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    text-align: center;
+    font-size: 1.8em;
+}
+
+/* 用户网格 */
+.user-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* 用户卡片样式 */
+.user-card {
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.user-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    border-color: #3498db;
+}
+
+.user-info {
+    text-align: center;
+}
+
+.user-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #3498db;
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.user-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.user-email {
+    color: #7f8c8d;
+    margin-bottom: 15px;
+}
+
+.user-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.status-pending {
+    background: #f39c12;
+    color: white;
+}
+
+.status-active {
+    background: #27ae60;
+    color: white;
+}
+
+.status-inactive {
+    background: #e74c3c;
+    color: white;
+}
+
+/* 操作按钮 */
+.user-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.btn-approve, .btn-reject, .btn-edit, .btn-disable {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.btn-approve {
+    background: #27ae60;
+    color: white;
+}
+
+.btn-approve:hover {
+    background: #229954;
+}
+
+.btn-reject, .btn-disable {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-reject:hover, .btn-disable:hover {
+    background: #c0392b;
+}
+
+.btn-edit {
+    background: #f39c12;
+    color: white;
+}
+
+.btn-edit:hover {
+    background: #e67e22;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .user-nav {
+        flex-direction: column;
+    }
+    
+    .user-grid {
+        grid-template-columns: 1fr;
+    }
+} 
