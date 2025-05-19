@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>内容列表</title>
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --success-color: #2ecc71;
+            --hover-color: #357abd;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-image: url('/images/backgrounds/background.jpg');  /* 背景图片 */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;  /* 固定背景，滚动时不动 */
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* 添加一个遮罩层，使内容更容易阅读 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.85);  /* 半透明白色背景 */
+            z-index: -1;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1.5rem;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 1.8rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .header-flex-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .header-description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            font-weight: normal;
+            margin: 0;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: nowrap;
+            min-width: 300px;
+        }
+
+        .search-input {
+            padding: 8px 15px;
+            border: 2px solid rgba(224, 224, 224, 0.8);
+            border-radius: 6px;
+            font-size: 1rem;
+            width: 300px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+            background: #fff;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .btn-search {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-search:hover {
+            background-color: var(--hover-color);
+            transform: translateY(-1px);
+        }
+
+        .btn-reset {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .btn-reset:hover {
+            background-color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .card h3 {
+            margin: 0 0 15px 0;
+            color: #2c3e50;
+            font-size: 1.3rem;
+        }
+
+        .card p {
+            margin: 0 0 20px 0;
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .link-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(248, 249, 250, 0.8);
+            padding: 10px;
+            border-radius: 6px;
+            backdrop-filter: blur(5px);
+            position: relative;
+        }
+
+        .link {
+            color: var(--primary-color);
+            text-decoration: none;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .link:hover {
+            background-color: rgba(74, 144, 226, 0.1);
+        }
+
+        .copy-btn {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            min-width: 80px;
+            position: relative;
+        }
+
+        .copy-btn:hover {
+            background-color: #27ae60;
+            transform: translateY(-1px);
+        }
+
+        .copy-btn.copied {
+            background-color: #7f8c8d;
+        }
+
+        .copy-btn.copied::after {
+            content: '✓';
+            margin-left: 5px;
+        }
+
+        .copy-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            margin-bottom: 5px;
+        }
+
+        .copy-tooltip.show {
+            opacity: 1;
+        }
+
+        .no-results {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 40px;
+            color: #666;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 1024px) {
+            .header-flex-container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+
+            .header-description {
+                text-align: center;
+            }
+
+            .search-container {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .search-container {
+                flex-wrap: wrap;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .btn {
+                flex: 1;
+            }
+        }
+
+        /* 添加留言按钮样式 */
+        .message-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .message-btn:hover {
+            background-color: var(--hover-color);
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        /* 留言弹窗样式 */
+        .message-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .message-modal.active {
+            display: flex;
+        }
+
+        .message-modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .message-modal-close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s;
+        }
+
+        .message-modal-close:hover {
+            color: #333;
+        }
+
+        .message-modal h2 {
+            margin: 0 0 20px 0;
+            color: #2c3e50;
+        }
+
+        .message-modal textarea {
+            width: 100%;
+            height: 150px;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .message-modal textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .message-modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .message-modal-submit {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .message-modal-submit:hover {
+            background-color: var(--hover-color);
+        }
+
+        .message-modal-cancel {
+            background-color: #e0e0e0;
+            color: #333;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .message-modal-cancel:hover {
+            background-color: #d0d0d0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>内容列表</h1>
+        <div class="header-flex-container">
+            <p class="header-description">亲爱的朋友，资料有很多，你可以通过检索方式去进行模糊查询，如没有检索到的内容可以在下方留言，我们会努力去收集噢</p>
+            <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="搜索名称或简介...">
+                <button class="btn btn-search" onclick="searchContents()">搜索</button>
+                <button class="btn btn-reset" onclick="resetSearch()">重置</button>
+            </div>
+        </div>
+    </div>
+    <div class="content-grid" id="contentGrid">
+        <!-- 内容将通过JavaScript动态加载 -->
+    </div>
+
+    <a href="javascript:void(0)" class="message-btn" onclick="openMessageModal()">留言板</a>
+
+    <!-- 留言弹窗 -->
+    <div class="message-modal" id="messageModal">
+        <div class="message-modal-content">
+            <span class="message-modal-close" onclick="closeMessageModal()">&times;</span>
+            <h2>留言板</h2>
+            <textarea id="messageContent" placeholder="请输入您的留言内容..."></textarea>
+            <div class="message-modal-buttons">
+                <button class="message-modal-cancel" onclick="closeMessageModal()">取消</button>
+                <button class="message-modal-submit" onclick="submitMessage()">提交</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allContents = []; // 存储所有内容的数组
+
+        // 获取内容列表
+        fetch('/api/contents')
+            .then(response => response.json())
+            .then(contents => {
+                allContents = contents; // 保存所有内容
+                displayContents(contents); // 显示内容
+            })
+            .catch(error => console.error('Error:', error));
+
+        // 显示内容
+        function displayContents(contents) {
+            const contentGrid = document.getElementById('contentGrid');
+            contentGrid.innerHTML = ''; // 清空现有内容
+
+            if (contents.length === 0) {
+                contentGrid.innerHTML = '<div class="no-results">未找到匹配的内容</div>';
+                return;
+            }
+
+            contents.forEach(content => {
+                const card = createCard(content);
+                contentGrid.appendChild(card);
+            });
+        }
+
+        // 创建内容卡片
+        function createCard(content) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            const escapedLink = escapeHtml(content.downloadLink);
+            const escapedName = escapeHtml(content.name);
+            const escapedDesc = escapeHtml(content.description);
+            
+            card.innerHTML = `
+                <h3>${escapedName}</h3>
+                <p>${escapedDesc}</p>
+                <div class="link-container">
+                    <a href="${escapedLink}" target="_blank" class="link" title="${escapedLink}">${escapedLink}</a>
+                    <button class="copy-btn" onclick="copyLink('${escapedLink.replace(/'/g, "\\'")}', this)">复制链接</button>
+                </div>
+            `;
+            return card;
+        }
+
+        // 搜索功能
+        function searchContents() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filteredContents = allContents.filter(content => 
+                content.name.toLowerCase().includes(searchTerm) ||
+                content.description.toLowerCase().includes(searchTerm)
+            );
+            displayContents(filteredContents);
+        }
+
+        // 重置搜索
+        function resetSearch() {
+            document.getElementById('searchInput').value = '';
+            displayContents(allContents);
+        }
+
+        // 复制链接功能
+        function copyLink(link, button) {
+            // 创建一个临时的textarea元素
+            const textarea = document.createElement('textarea');
+            textarea.value = link;
+            
+            // 设置样式使其不可见
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-999999px';
+            textarea.style.top = '-999999px';
+            document.body.appendChild(textarea);
+            
+            // 选择文本
+            textarea.select();
+            textarea.setSelectionRange(0, 99999); // 对于移动设备
+            
+            // 执行复制命令
+            let success = false;
+            try {
+                success = document.execCommand('copy');
+            } catch (err) {
+                console.error('复制失败:', err);
+            }
+            
+            // 移除临时元素
+            document.body.removeChild(textarea);
+            
+            // 显示结果
+            if (success) {
+                showCopySuccess(button);
+            } else {
+                showCopyError(button);
+            }
+        }
+
+        // 显示复制成功提示
+        function showCopySuccess(button) {
+            button.textContent = '已复制';
+            button.classList.add('copied');
+            
+            // 2秒后恢复按钮状态
+            setTimeout(() => {
+                button.textContent = '复制链接';
+                button.classList.remove('copied');
+            }, 2000);
+        }
+
+        // 显示复制错误提示
+        function showCopyError(button) {
+            button.textContent = '复制失败';
+            button.classList.add('copied');
+            
+            // 2秒后恢复按钮状态
+            setTimeout(() => {
+                button.textContent = '复制链接';
+                button.classList.remove('copied');
+            }, 2000);
+        }
+
+        // HTML转义函数，防止XSS攻击
+        function escapeHtml(unsafe) {
+            if (typeof unsafe !== 'string') {
+                return '';
+            }
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // 添加搜索框回车事件监听
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchContents();
+            }
+        });
+
+        // 打开留言弹窗
+        function openMessageModal() {
+            document.getElementById('messageModal').classList.add('active');
+            document.getElementById('messageContent').focus();
+        }
+
+        // 关闭留言弹窗
+        function closeMessageModal() {
+            document.getElementById('messageModal').classList.remove('active');
+            document.getElementById('messageContent').value = '';
+        }
+
+        // 提交留言
+        function submitMessage() {
+            const content = document.getElementById('messageContent').value.trim();
+            if (!content) {
+                alert('请输入留言内容');
+                return;
+            }
+
+            // 禁用提交按钮，防止重复提交
+            const submitBtn = document.querySelector('.message-modal-submit');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '提交中...';
+
+            fetch('/message/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'content=' + encodeURIComponent(content)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw new Error(text || '提交失败');
+                    });
+                }
+                return response.text();
+            })
+            .then(result => {
+                alert('留言提交成功！');
+                closeMessageModal();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('留言提交失败：' + error.message);
+            })
+            .finally(() => {
+                // 恢复提交按钮状态
+                submitBtn.disabled = false;
+                submitBtn.textContent = '提交';
+            });
+        }
+
+        // 点击弹窗外部关闭弹窗
+        document.getElementById('messageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeMessageModal();
+            }
+        });
+
+        // 按ESC键关闭弹窗
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('messageModal').classList.contains('active')) {
+                closeMessageModal();
+            }
+        });
+    </script>
+</body>
+</html> 
